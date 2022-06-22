@@ -12,7 +12,7 @@ public class Main{
 
         System.out.println("PUNE O LITERA CAND TERMINI DE CITIT DATELE");
         boolean stopLoop = false;
-        while (!stopLoop) {
+        while (true) {
             System.out.println("---------");
             System.out.println("Materia " + (i + 1));
             System.out.println("---------");
@@ -20,10 +20,8 @@ public class Main{
 
             System.out.print("Nota: ");
             int rezMat1 = input.nextInt();
-            if (rezMat1 == 0) {
-                stopLoop = true;
-                break;
-            }
+            if (rezMat1 == 0) break;
+
             matrice1.add(rezMat1);
 
             System.out.print("Credite: ");
@@ -42,7 +40,9 @@ public class Main{
         }
 
         double total = multiply / sum;
-        System.out.printf("MEDIA ESTE: %.2f", total);
+        System.out.println("| ---------------- |");
+        System.out.printf("| MEDIA ESTE: %.2f |\n", total);
+        System.out.println("| ---------------- |");
     }
 
 }

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
 
     public static void main(String[] args) {
         ArrayList<Integer> matrice1 = new ArrayList<>();
@@ -11,16 +11,16 @@ public class Main{
         Scanner input = new Scanner(System.in);
 
         System.out.println("PUNE O LITERA CAND TERMINI DE CITIT DATELE");
-        boolean stopLoop = false;
+
         while (true) {
             System.out.println("---------");
             System.out.println("Materia " + (i + 1));
             System.out.println("---------");
 
-
             System.out.print("Nota: ");
             int rezMat1 = input.nextInt();
-            if (rezMat1 == 0) break;
+            if (rezMat1 == 0)
+                break;
 
             matrice1.add(rezMat1);
 
@@ -33,7 +33,6 @@ public class Main{
             i++;
         }
 
-
         double multiply = 0;
         for (i = 0; i < matrice1.size(); i++) {
             multiply += (matrice1.get(i) * matrice2.get(i));
@@ -43,6 +42,9 @@ public class Main{
         System.out.println("| ---------------- |");
         System.out.printf("| MEDIA ESTE: %.2f |\n", total);
         System.out.println("| ---------------- |");
+        
+        input.close();
+       
     }
 
 }

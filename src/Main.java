@@ -10,7 +10,7 @@ public class Main {
         int sum = 0;
         Scanner input = new Scanner(System.in);
 
-        System.out.println("PUNE O LITERA CAND TERMINI DE CITIT DATELE");
+        System.out.println("PUNE O CIFRA NEGATIVA CAND TERMINI DE CITIT DATELE");
 
         while (true) {
             System.out.println("---------");
@@ -19,7 +19,7 @@ public class Main {
 
             System.out.print("Nota: ");
             int rezMat1 = input.nextInt();
-            if (rezMat1 == 0)
+            if (rezMat1 < 0)
                 break;
 
             matrice1.add(rezMat1);

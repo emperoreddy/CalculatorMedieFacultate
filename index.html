@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator Medie Facultate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-icon">🎓</div>
+      <h1>Calculator Medie</h1>
+      <p class="subtitle">Calculează media ponderată a semestrului</p>
+    </header>
+
+    <!-- Summary Dashboard -->
+    <div class="dashboard" id="dashboard">
+      <div class="stat-card">
+        <span class="stat-label">Media Ponderată</span>
+        <span class="stat-value" id="avg-display">—</span>
+        <span class="stat-badge" id="avg-badge"></span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-card">
+        <span class="stat-label">Materii</span>
+        <span class="stat-value" id="subject-count">0</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-card">
+        <span class="stat-label">Total Credite</span>
+        <span class="stat-value" id="total-credits">0</span>
+      </div>
+    </div>
+
+    <!-- Grade Bar -->
+    <div class="grade-bar-wrapper" id="grade-bar-wrapper" style="display:none">
+      <div class="grade-bar-track">
+        <div class="grade-bar-fill" id="grade-bar-fill"></div>
+        <div class="grade-bar-threshold" title="Nota minimă de promovare: 5.00"></div>
+      </div>
+      <div class="grade-bar-labels">
+        <span>1</span><span>5</span><span>10</span>
+      </div>
+    </div>
+
+    <!-- Add Subject Form -->
+    <div class="add-form card">
+      <h2 class="form-title">Adaugă Materie</h2>
+      <div class="form-row">
+        <div class="field">
+          <label for="subject-name">Denumire materie</label>
+          <input
+            type="text"
+            id="subject-name"
+            placeholder="ex: Matematică, Fizică…"
+            maxlength="60"
+            autocomplete="off"
+          />
+        </div>
+        <div class="field field-sm">
+          <label for="subject-grade">
+            Notă
+            <span class="field-hint">(1–10)</span>
+          </label>
+          <input
+            type="number"
+            id="subject-grade"
+            placeholder="ex: 8.5"
+            min="1"
+            max="10"
+            step="0.01"
+          />
+        </div>
+        <div class="field field-sm">
+          <label for="subject-credits">
+            Credite
+            <span class="field-hint">(1–30)</span>
+          </label>
+          <input
+            type="number"
+            id="subject-credits"
+            placeholder="ex: 5"
+            min="1"
+            max="30"
+            step="1"
+          />
+        </div>
+        <button class="btn btn-add" id="add-btn" title="Adaugă materie (Enter)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Adaugă
+        </button>
+      </div>
+      <div class="form-error" id="form-error" role="alert"></div>
+    </div>
+
+    <!-- Subject List -->
+    <div class="subjects-section">
+      <div class="subjects-header" id="subjects-header" style="display:none">
+        <h2>Materii înregistrate</h2>
+        <div class="subjects-actions">
+          <button class="btn btn-ghost btn-sm" id="sort-btn" title="Sortează după notă">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 6h18M7 12h10M11 18h2"/>
+            </svg>
+            Sortează
+          </button>
+          <button class="btn btn-ghost btn-sm btn-danger" id="clear-btn" title="Șterge toate materiile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/>
+            </svg>
+            Șterge tot
+          </button>
+        </div>
+      </div>
+
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon">📚</div>
+        <p>Nicio materie adăugată încă.</p>
+        <p class="empty-hint">Completează formularul de mai sus pentru a începe.</p>
+      </div>
+
+      <ul class="subject-list" id="subject-list" role="list"></ul>
+    </div>
+
+    <!-- Breakdown -->
+    <div class="breakdown card" id="breakdown" style="display:none">
+      <h2>Contribuție per materie</h2>
+      <div class="breakdown-list" id="breakdown-list"></div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-bar" id="action-bar" style="display:none">
+      <button class="btn btn-outline" id="export-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Exportă
+      </button>
+      <button class="btn btn-outline" id="print-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Printează
+      </button>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="modal-overlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <h3 id="modal-title">Confirmare</h3>
+      <p id="modal-message"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modal-cancel">Anulează</button>
+        <button class="btn btn-danger" id="modal-confirm">Confirmă</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
